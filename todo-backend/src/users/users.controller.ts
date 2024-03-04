@@ -1,5 +1,4 @@
 import { Controller, Get, Req, Res } from '@nestjs/common';
-import { Users } from './users.model';
 import { UsersService } from './users.service';
 import { Request, Response } from 'express';
 
@@ -7,11 +6,11 @@ import { Request, Response } from 'express';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Get('/users')
+  @Get()
   async getAllUsers(
     @Req() request: Request,
     @Res() response: Response,
-  ): Promise<Users[]> {
+  ): Promise<any> {
     try {
       const users = await this.usersService.getAllUser();
       return response.status(200).json(users);
