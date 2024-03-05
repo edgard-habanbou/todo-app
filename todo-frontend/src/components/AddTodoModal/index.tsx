@@ -6,22 +6,33 @@ import { userApi } from "../../network/axios";
 function AddTodoModal({
   toggleModal,
   edit,
+  todo,
 }: {
   toggleModal: () => void;
   edit: boolean;
+  todo?: {
+    id: string;
+    description: string;
+    date: string;
+    priority: number;
+  };
 }) {
-  const [description, setDescription] = useState("");
-  const [date, setDate] = useState("");
-  const [priority, setPriority] = useState(1);
+  const [description, setDescription] = useState(todo?.description || "");
+  const [date, setDate] = useState(todo?.date.split("T")[0] || "");
+  const [priority, setPriority] = useState(todo?.priority || 1);
 
   const handleSave = async () => {
-    const todo = {
+    const updatedTodo = {
       title: description,
       description: description,
       date: date + "T08:00:00Z",
       priority: priority,
     };
-    await userApi.addTodo(todo);
+    if (edit) {
+      await userApi.editTodo(todo?.id, updatedTodo);
+    } else {
+      await userApi.addTodo(updatedTodo);
+    }
     toggleModal();
   };
   return (
@@ -41,6 +52,7 @@ function AddTodoModal({
               type="text"
               id="description"
               className="input-full-width"
+              value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
           </div>
@@ -51,6 +63,7 @@ function AddTodoModal({
                 type="date"
                 id="date"
                 className="input-full-width"
+                value={date.split("T")[0]}
                 onChange={(e) => setDate(e.target.value)}
               />
             </div>
@@ -60,6 +73,7 @@ function AddTodoModal({
                 name="priority"
                 className="input-full-width"
                 id="priority"
+                value={priority}
                 onChange={(e) => setPriority(Number(e.target.value))}
               >
                 <option value="1">High</option>

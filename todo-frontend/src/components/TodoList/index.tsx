@@ -57,12 +57,7 @@ function TodoList({
             )}
             {groupedTodos[date].map((todo: TodoProps, todoIndex) =>
               todo.completed ? null : (
-                <Todo
-                  key={todoIndex}
-                  description={todo.description}
-                  id={todo.id}
-                  getTodos={() => getTodos()}
-                />
+                <Todo key={todoIndex} todo={todo} getTodos={() => getTodos()} />
               )
             )}
           </div>

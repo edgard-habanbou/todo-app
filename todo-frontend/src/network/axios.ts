@@ -15,6 +15,17 @@ class UserApi {
     return await api.post("/todos", todo);
   }
 
+  async editTodo(
+    id: string | undefined,
+    todo: {
+      description: string;
+      date: string;
+      priority: number;
+    }
+  ) {
+    return await api.put(`/todos/${id}`, todo);
+  }
+
   async getTodos() {
     return await api.get("/todos");
   }
