@@ -36,15 +36,17 @@ export class TodosController {
 
   @Post('/')
   async createTodo(
-    @Req() request: Request & { user: { userId: string } },
+    @Req() request: Request & { user: { id: string } },
     @Res() response: Response,
   ): Promise<Response> {
     try {
       const todo = await this.todosService.createTodo({
         ...request.body,
-        userId: request.user.userId,
+        userId: request.user.id,
       });
-      return response.status(201).json(todo);
+      return response.status(200).json({
+        message: 'Todo created successfully!',
+      });
     } catch (error) {
       return response
         .status(500)
