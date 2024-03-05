@@ -2,8 +2,10 @@ import { useState } from "react";
 import "./index.css";
 import Loading from "../../components/Loading";
 import { userApi } from "../../network/axios";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -15,18 +17,17 @@ function Login() {
     setLoading(true);
     if (register) {
       const response = await userApi.register({ email, password, name });
-      if (response.status === 200) {
-        localStorage.setItem("token", response.data.token);
-        window.location.href = "/todos";
+      if (response) {
+        localStorage.setItem("token", response.token);
+        navigate("/todos");
       } else {
         setError(true);
       }
     } else {
       const response = await userApi.login({ email, password });
-
-      if (response.status === 200) {
-        localStorage.setItem("token", response.data.token);
-        window.location.href = "/todos";
+      if (response.token) {
+        localStorage.setItem("token", response.token);
+        navigate("/todos");
       } else {
         setError(true);
       }
