@@ -35,4 +35,18 @@ export class AuthController {
       return res.status(400).json({ message: error.message });
     }
   }
+
+  @Post('/check')
+  async check(
+    @Req() req: Request,
+    @Res() res: Response,
+    @Body() token: string,
+  ): Promise<any> {
+    try {
+      await this.authService.validateToken(token);
+      return res.status(200).json({ message: 'Token is valid' });
+    } catch (error) {
+      return res.status(400).json({ message: 'Token is unvalid' });
+    }
+  }
 }

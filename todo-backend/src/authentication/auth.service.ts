@@ -33,6 +33,7 @@ export class AuthService {
     }
 
     const payload = { id: user.id };
+
     return {
       token: this.jwtService.sign(payload),
     };
@@ -57,5 +58,20 @@ export class AuthService {
     return {
       token: this.jwtService.sign(payload),
     };
+  }
+
+  async validateToken(token: any): Promise<any> {
+    try {
+      const JwtToken = token.token.split(' ')[1];
+      const user = await this.jwtService.decode(JwtToken);
+
+      if (!user.id) {
+        throw new NotFoundException('Invalid token');
+      } else {
+        return user;
+      }
+    } catch (error) {
+      throw new NotFoundException('Invalid token format');
+    }
   }
 }
