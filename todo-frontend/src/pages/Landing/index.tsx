@@ -1,38 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import TodoList from "../../components/TodoList";
 import "./index.css";
+import { userApi } from "../../network/axios";
 
 function Landing() {
-  const todos = [
-    {
-      description: "Batata",
-      priority: 2,
-      completed: true,
-      date: "2024-03-06T08:00:00Z",
-    },
-    {
-      description: "Batata",
-      priority: 2,
-      completed: false,
-      date: "2024-03-06T08:00:00Z",
-    },
-    {
-      description: "Batata2",
-      priority: 2,
-      completed: false,
-      date: "2024-03-05T08:00:00Z",
-    },
-    {
-      description: "Batata2",
-      priority: 2,
-      completed: false,
-      date: "2024-03-07T08:00:00Z",
-    },
-  ];
+  const [todos, setTodos] = useState([]);
+
+  const getTodos = async () => {
+    const response = await userApi.getTodos();
+    setTodos(response);
+  };
+  useEffect(() => {
+    getTodos();
+  }, []);
   return (
     <div className="todo-wrapper full-screen">
       <div className="todo-list">
-        <TodoList todos={todos} />
+        <TodoList todos={todos} getTodos={() => getTodos()} />
       </div>
     </div>
   );

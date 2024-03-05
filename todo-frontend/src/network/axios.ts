@@ -14,6 +14,10 @@ class UserApi {
   async addTodo(todo: { description: string; date: string; priority: number }) {
     return await api.post("/todos", todo);
   }
+
+  async getTodos() {
+    return await api.get("/todos");
+  }
 }
 
 export const userApi = new UserApi();

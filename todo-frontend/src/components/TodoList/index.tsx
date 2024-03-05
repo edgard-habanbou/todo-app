@@ -12,7 +12,13 @@ interface TodoProps {
   date: string;
 }
 
-function TodoList({ todos }: { todos: TodoProps[] }) {
+function TodoList({
+  todos,
+  getTodos,
+}: {
+  todos: TodoProps[];
+  getTodos: () => void;
+}) {
   const [showAddTodoModal, setShowAddTodoModal] = React.useState(false);
 
   const formatDate = (dateString: string): string => {
@@ -74,7 +80,10 @@ function TodoList({ todos }: { todos: TodoProps[] }) {
       {showAddTodoModal && (
         <AddTodoModal
           edit={false}
-          toggleModal={() => setShowAddTodoModal(false)}
+          toggleModal={() => {
+            setShowAddTodoModal(false);
+            getTodos();
+          }}
         />
       )}
     </>
