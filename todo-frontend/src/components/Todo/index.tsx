@@ -2,12 +2,18 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./index.css";
 import { faFlag, faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { userApi } from "../../network/axios";
 interface TodoFieldProps {
   description: string;
-  completed: boolean;
+  id: string;
+  getTodos: () => void;
 }
 
-function Todo({ description, completed }: TodoFieldProps) {
+function Todo({ description, id, getTodos }: TodoFieldProps) {
+  const handleDelete = async (id: string) => {
+    await userApi.deleteTodo(id);
+    getTodos();
+  };
   return (
     <div className="todo-field flex space-between">
       <div>{description}</div>
@@ -21,7 +27,12 @@ function Todo({ description, completed }: TodoFieldProps) {
           <button className="btn-menu">
             <FontAwesomeIcon icon={faPen} className="icon" />
           </button>
-          <button className="btn-menu">
+          <button
+            className="btn-menu"
+            onClick={() => {
+              handleDelete(id);
+            }}
+          >
             <FontAwesomeIcon icon={faTrash} className="icon" />
           </button>
         </div>

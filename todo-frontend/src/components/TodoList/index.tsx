@@ -6,6 +6,7 @@ import { faCheck, faPlus } from "@fortawesome/free-solid-svg-icons";
 import AddTodoModal from "../AddTodoModal";
 
 interface TodoProps {
+  id: string;
   description: string;
   completed: boolean;
   priority: number;
@@ -57,7 +58,8 @@ function TodoList({
                 <Todo
                   key={todoIndex}
                   description={todo.description}
-                  completed={todo.completed}
+                  id={todo.id}
+                  getTodos={() => getTodos()}
                 />
               )
             )}

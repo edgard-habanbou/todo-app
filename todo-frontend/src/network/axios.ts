@@ -18,6 +18,10 @@ class UserApi {
   async getTodos() {
     return await api.get("/todos");
   }
+
+  async deleteTodo(todoId: string) {
+    return await api.delete(`/todos/${todoId}`);
+  }
 }
 
 export const userApi = new UserApi();
