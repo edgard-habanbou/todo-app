@@ -2,11 +2,11 @@ import { Controller, Get, Req, Res } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { TodosService } from './todos.service';
 
-@Controller('todos')
+@Controller('/todos')
 export class TodosController {
   constructor(private readonly todosService: TodosService) {}
 
-  @Get('/todos')
+  @Get('/all')
   async getAllTodos(
     @Req() request: Request,
     @Res() response: Response,
