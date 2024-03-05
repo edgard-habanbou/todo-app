@@ -3,6 +3,7 @@ import "./index.css";
 import Todo from "../Todo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faPlus } from "@fortawesome/free-solid-svg-icons";
+import AddTodoModal from "../AddTodoModal";
 
 interface TodoProps {
   description: string;
@@ -12,6 +13,8 @@ interface TodoProps {
 }
 
 function TodoList({ todos }: { todos: TodoProps[] }) {
+  const [showAddTodoModal, setShowAddTodoModal] = React.useState(false);
+
   const formatDate = (dateString: string): string => {
     const date = new Date(dateString);
     return date.toISOString().split("T")[0];
@@ -32,7 +35,7 @@ function TodoList({ todos }: { todos: TodoProps[] }) {
   const tomorrow = formatDate(new Date(Date.now() + 86400000).toISOString());
 
   return (
-    <div>
+    <>
       <div className="todo-list-wrapper full-screen flex column gap center">
         {sortedDates.map((date: string, index) => (
           <div key={index} className="flex column gap color-white">
@@ -59,13 +62,22 @@ function TodoList({ todos }: { todos: TodoProps[] }) {
             <button className="btn-menu flex center round">
               <FontAwesomeIcon icon={faCheck} className="icon" size="xl" />
             </button>
-            <button className="btn-menu flex center round">
+            <button
+              className="btn-menu flex center round"
+              onClick={() => setShowAddTodoModal(true)}
+            >
               <FontAwesomeIcon icon={faPlus} className="icon" size="xl" />
             </button>
           </div>
         </div>
       </div>
-    </div>
+      {showAddTodoModal && (
+        <AddTodoModal
+          edit={false}
+          toggleModal={() => setShowAddTodoModal(false)}
+        />
+      )}
+    </>
   );
 }
 
