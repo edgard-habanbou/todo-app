@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./index.css";
 import Loading from "../../components/Loading";
 import { userApi } from "../../network/axios";
@@ -15,7 +15,17 @@ function Login() {
 
   const handleSubmit = async () => {
     setLoading(true);
+    if (email === "" || password === "") {
+      setError(true);
+      setLoading(false);
+      return;
+    }
     if (register) {
+      if (name === "") {
+        setError(true);
+        setLoading(false);
+        return;
+      }
       const response = await userApi.register({ email, password, name });
       if (response) {
         localStorage.setItem("token", response.token);
@@ -35,6 +45,20 @@ function Login() {
 
     setLoading(false);
   };
+
+  const checkToken = () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      userApi.checkToken(token).then((response) => {
+        if (response.status === 200) {
+          navigate("/todos");
+        }
+      });
+    }
+  };
+  useEffect(() => {
+    checkToken();
+  }, []);
 
   return (
     <>
