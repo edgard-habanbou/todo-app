@@ -15,7 +15,9 @@ export class TodosController {
       const todos = await this.todosService.getTodoByUser(request.user.userId);
       return response.status(200).json(todos);
     } catch (error) {
-      return response.status(500).json({ message: error.message });
+      return response
+        .status(500)
+        .json({ message: 'Something went wrong please try again!' });
     }
   }
 
@@ -44,7 +46,9 @@ export class TodosController {
       });
       return response.status(201).json(todo);
     } catch (error) {
-      return response.status(500).json({ message: error.message });
+      return response
+        .status(500)
+        .json({ message: 'Something went wrong please try again!' });
     }
   }
 
@@ -72,7 +76,9 @@ export class TodosController {
       const todo = await this.todosService.updateTodoById(todoId, updateFields);
       return response.status(200).json(todo);
     } catch (error) {
-      return response.status(500).json({ message: error.message });
+      return response
+        .status(500)
+        .json({ message: 'Something went wrong please try again!' });
     }
   }
 
