@@ -6,5 +6,5 @@ export class Todos implements Prisma.TodosCreateInput {
   priority?: number;
   date: Date;
   completed: boolean;
-  userId: number;
+  userId: string;
 }

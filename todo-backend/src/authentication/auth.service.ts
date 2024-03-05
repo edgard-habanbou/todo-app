@@ -32,7 +32,7 @@ export class AuthService {
       throw new NotFoundException('Invalid password');
     }
 
-    const payload = { email: user.email };
+    const payload = { userId: user.id };
     return {
       token: this.jwtService.sign(payload),
     };
