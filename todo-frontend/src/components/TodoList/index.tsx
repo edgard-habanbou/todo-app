@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./index.css";
 import Todo from "../Todo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,7 +20,7 @@ function TodoList({
   todos: TodoProps[];
   getTodos: () => void;
 }) {
-  const [showAddTodoModal, setShowAddTodoModal] = React.useState(false);
+  const [showAddTodoModal, setShowAddTodoModal] = useState(false);
 
   const formatDate = (dateString: string): string => {
     const date = new Date(dateString);
@@ -38,8 +38,10 @@ function TodoList({
 
   const sortedDates = Object.keys(groupedTodos).sort();
 
-  const today = formatDate(new Date().toISOString());
-  const tomorrow = formatDate(new Date(Date.now() + 86400000).toISOString());
+  const today = formatDate(new Date(Date.now() + 86400000).toISOString());
+  const tomorrow = formatDate(
+    new Date(Date.now() + 86400000 + 86400000).toISOString()
+  );
 
   return (
     <>
