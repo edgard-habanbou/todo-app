@@ -80,11 +80,14 @@
   padding: 0.8rem 1rem;
   color: white;
   width: 100%;
-  max-width: 400px;
+  max-width: 200px;
   background-color: #a1a1a16c;
 }
 .input::placeholder {
   color: rgba(218, 218, 218, 0.445);
+}
+.input-error {
+  border: 2px solid red;
 }
 .link {
   text-decoration: none;
@@ -130,14 +133,15 @@
   border: none;
   color: white;
 }
+.btn-menu:hover {
+  cursor: pointer;
+  color: var(--secondarycolor);
+}
 .color-white {
   color: white;
 }
 button {
   font-weight: bold;
-}
-span {
-  font-size: 15px;
 }
 .color-primary {
   color: var(--primarycolor);
@@ -153,4 +157,9 @@ span {
 }
 .text-wrap {
   text-wrap: wrap;
+}
+.span-error {
+  color: red;
+  font-size: 10px;
+  margin-left: 10px;
 }
