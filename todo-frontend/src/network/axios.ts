@@ -7,7 +7,7 @@ class UserApi {
     return await api.post("/auth/register", user);
   }
 
-  async checkToken(token: string) {
+  async checkToken(token: { token: string }) {
     return await api.post("/auth/check", token);
   }
 }

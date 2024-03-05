@@ -46,14 +46,13 @@ function Login() {
     setLoading(false);
   };
 
-  const checkToken = () => {
-    const token = localStorage.getItem("token");
+  const checkToken = async () => {
+    const token = "Bearer " + localStorage.getItem("token");
     if (token) {
-      userApi.checkToken(token).then((response) => {
-        if (response.status === 200) {
-          navigate("/todos");
-        }
-      });
+      const res = await userApi.checkToken({ token: token });
+      if (res.message === "Token is valid") {
+        navigate("/todos");
+      }
     }
   };
   useEffect(() => {
