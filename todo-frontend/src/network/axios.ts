@@ -10,6 +10,10 @@ class UserApi {
   async checkToken(token: { token: string }) {
     return await api.post("/auth/check", token);
   }
+
+  async addTodo(todo: { description: string; date: string; priority: number }) {
+    return await api.post("/todos", todo);
+  }
 }
 
 export const userApi = new UserApi();

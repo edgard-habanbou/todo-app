@@ -1,6 +1,8 @@
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./index.css";
+import { useState } from "react";
+import { userApi } from "../../network/axios";
 function AddTodoModal({
   toggleModal,
   edit,
@@ -8,7 +10,20 @@ function AddTodoModal({
   toggleModal: () => void;
   edit: boolean;
 }) {
-  const handleSave = () => {};
+  const [description, setDescription] = useState("");
+  const [date, setDate] = useState("");
+  const [priority, setPriority] = useState(1);
+
+  const handleSave = async () => {
+    const todo = {
+      title: description,
+      description: description,
+      date: date + "T08:00:00Z",
+      priority: priority,
+    };
+    await userApi.addTodo(todo);
+    toggleModal();
+  };
   return (
     <div className="modal-overlay">
       <div className="modal">
@@ -22,12 +37,22 @@ function AddTodoModal({
         <div className="modal-content flex gap column">
           <div className="flex column">
             <label htmlFor="description">Description</label>
-            <input type="text" id="description" className="input-full-width" />
+            <input
+              type="text"
+              id="description"
+              className="input-full-width"
+              onChange={(e) => setDescription(e.target.value)}
+            />
           </div>
           <div className="flex gap">
             <div className="flex column half-width">
               <label htmlFor="date">Date</label>
-              <input type="date" id="date" className="input-full-width" />
+              <input
+                type="date"
+                id="date"
+                className="input-full-width"
+                onChange={(e) => setDate(e.target.value)}
+              />
             </div>
             <div className="flex column half-width">
               <label htmlFor="priority">Priority</label>
@@ -35,6 +60,7 @@ function AddTodoModal({
                 name="priority"
                 className="input-full-width"
                 id="priority"
+                onChange={(e) => setPriority(Number(e.target.value))}
               >
                 <option value="1">High</option>
                 <option value="2">Medium</option>
