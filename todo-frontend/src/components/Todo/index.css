@@ -1,6 +1,10 @@
 .todo-field {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
+  background-color: var(--primarycolor);
+  width: 40vw;
+  height: 70px;
+  border-radius: 10px;
+  padding: 10px;
+}
+.todo-actions {
+  gap: 15px;
 }

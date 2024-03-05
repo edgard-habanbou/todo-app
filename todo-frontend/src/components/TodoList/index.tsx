@@ -1,6 +1,8 @@
 import React from "react";
 import "./index.css";
 import Todo from "../Todo";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck, faPlus } from "@fortawesome/free-solid-svg-icons";
 
 interface TodoProps {
   description: string;
@@ -33,23 +35,35 @@ function TodoList({ todos }: { todos: TodoProps[] }) {
     <div>
       <div className="todo-list-wrapper full-screen flex column gap center">
         {sortedDates.map((date: string, index) => (
-          <div key={index}>
+          <div key={index} className="flex column gap color-white">
             {date === today ? (
-              <h2>Today</h2>
+              <h3>Today</h3>
             ) : date === tomorrow ? (
-              <h2>Tomorrow</h2>
+              <h3>Tomorrow</h3>
             ) : (
-              <h2>{date}</h2>
+              <h3>{date}</h3>
             )}
-            {groupedTodos[date].map((todo: TodoProps, todoIndex) => (
-              <Todo
-                key={todoIndex}
-                description={todo.description}
-                completed={todo.completed}
-              />
-            ))}
+            {groupedTodos[date].map((todo: TodoProps, todoIndex) =>
+              todo.completed ? null : (
+                <Todo
+                  key={todoIndex}
+                  description={todo.description}
+                  completed={todo.completed}
+                />
+              )
+            )}
           </div>
         ))}
+        <div className="full-width">
+          <div className="flex gap right actions">
+            <button className="btn-menu flex center round">
+              <FontAwesomeIcon icon={faCheck} className="icon" size="xl" />
+            </button>
+            <button className="btn-menu flex center round">
+              <FontAwesomeIcon icon={faPlus} className="icon" size="xl" />
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

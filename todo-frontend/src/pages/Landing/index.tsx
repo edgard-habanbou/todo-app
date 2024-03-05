@@ -7,7 +7,7 @@ function Landing() {
     {
       description: "Batata",
       priority: 2,
-      completed: false,
+      completed: true,
       date: "2024-03-06T08:00:00Z",
     },
     {
