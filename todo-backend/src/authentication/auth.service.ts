@@ -32,7 +32,7 @@ export class AuthService {
       throw new NotFoundException('Invalid password');
     }
 
-    const payload = { userId: user.id };
+    const payload = { id: user.id };
     return {
       token: this.jwtService.sign(payload),
     };
@@ -47,9 +47,13 @@ export class AuthService {
     createUser.password = hashedPassword;
     createUser.name = name;
 
-    const user = await this.usersService.createUser(createUser);
+    await this.usersService.createUser(createUser);
 
-    const payload = { email: user.email };
+    const newUser = await this.prismaService.users.findUnique({
+      where: { email },
+    });
+
+    const payload = { id: newUser.id };
     return {
       token: this.jwtService.sign(payload),
     };

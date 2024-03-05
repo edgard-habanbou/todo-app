@@ -13,9 +13,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: { email: string }) {
+  async validate(payload: { id: string }) {
     const user = await this.PrismService.users.findUnique({
-      where: { email: payload.email },
+      where: { id: payload.id },
     });
     return user;
   }

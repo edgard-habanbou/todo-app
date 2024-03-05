@@ -35,4 +35,12 @@ export class TodosService {
       },
     });
   }
+
+  async getTodoById(id: string): Promise<any> {
+    return this.prisma.todos.findUnique({
+      where: {
+        id: id,
+      },
+    });
+  }
 }
