@@ -4,7 +4,6 @@ import Todo from "../Todo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faPlus } from "@fortawesome/free-solid-svg-icons";
 import AddTodoModal from "../AddTodoModal";
-import { Http2ServerRequest } from "http2";
 
 interface TodoProps {
   id: string;
