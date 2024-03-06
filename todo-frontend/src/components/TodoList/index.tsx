@@ -4,6 +4,7 @@ import Todo from "../Todo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faPlus } from "@fortawesome/free-solid-svg-icons";
 import AddTodoModal from "../AddTodoModal";
+import { Http2ServerRequest } from "http2";
 
 interface TodoProps {
   id: string;
@@ -21,6 +22,7 @@ function TodoList({
   getTodos: () => void;
 }) {
   const [showAddTodoModal, setShowAddTodoModal] = useState(false);
+  const [showCompletedTodos, setShowCompletedTodos] = useState(false);
 
   const formatDate = (dateString: string): string => {
     const date = new Date(dateString);
@@ -29,8 +31,14 @@ function TodoList({
 
   const groupedTodos: { [key: string]: TodoProps[] } = {};
   todos.forEach((todo) => {
-    if (todo.completed) {
-      return;
+    if (showCompletedTodos) {
+      if (!todo.completed) {
+        return;
+      }
+    } else {
+      if (todo.completed) {
+        return;
+      }
     }
     const todoDate = formatDate(todo.date);
     if (!groupedTodos[todoDate]) {
@@ -51,6 +59,7 @@ function TodoList({
   return (
     <>
       <div className="todo-list-wrapper full-screen flex column gap center">
+        {showCompletedTodos && <h2 className="color-white">Completed Todos</h2>}
         {sortedDates.map((date: string, index) => (
           <div key={index} className="flex column gap color-white">
             {date === today ? (
@@ -67,7 +76,12 @@ function TodoList({
         ))}
         <div className="full-width">
           <div className="flex gap right actions">
-            <button className="btn-menu flex center round">
+            <button
+              className="btn-menu flex center round"
+              onClick={() => {
+                setShowCompletedTodos(!showCompletedTodos);
+              }}
+            >
               <FontAwesomeIcon icon={faCheck} className="icon" size="xl" />
             </button>
             <button
