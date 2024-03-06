@@ -8,11 +8,11 @@ export class TodosController {
 
   @Get('/')
   async getAllTodos(
-    @Req() request: Request & { user: { userId: string } },
+    @Req() request: Request & { user: { id: string } },
     @Res() response: Response,
   ): Promise<Response> {
     try {
-      const todos = await this.todosService.getTodoByUser(request.user.userId);
+      const todos = await this.todosService.getTodoByUser(request.user.id);
       return response.status(200).json(todos);
     } catch (error) {
       return response
@@ -56,28 +56,30 @@ export class TodosController {
 
   @Put('/:id')
   async updateTodo(
-    @Req() request: Request & { user: { userId: string } },
+    @Req() request: Request & { user: { id: string } },
     @Res() response: Response,
   ): Promise<Response> {
     try {
       const todoId = request.params.id;
       const unUpdatedTodo = await this.todosService.getTodoById(todoId);
 
-      if (unUpdatedTodo.userId !== request.user.userId) {
+      if (unUpdatedTodo.userId !== request.user.id) {
         return response.status(401).json({ message: 'Unauthorized' });
       }
 
       const updateFields = {
-        title: request.body.title,
+        title: request.body.description,
         description: request.body.description,
         priority: request.body.priority,
-        completed: request.body.completed,
+        completed:
+          request.body.completed === undefined ? false : request.body.completed,
         date: request.body.date ? new Date(request.body.date) : undefined,
       };
 
       const todo = await this.todosService.updateTodoById(todoId, updateFields);
       return response.status(200).json(todo);
     } catch (error) {
+      console.log(error.message);
       return response
         .status(500)
         .json({ message: 'Something went wrong please try again!' });
@@ -86,7 +88,7 @@ export class TodosController {
 
   @Delete('/:id')
   async deleteTodo(
-    @Req() request: Request & { user: { userId: string } },
+    @Req() request: Request & { user: { id: string } },
     @Res() response: Response,
   ): Promise<Response> {
     try {
@@ -94,7 +96,7 @@ export class TodosController {
         request.params.id,
       );
 
-      if (unDeletedTodo.userId !== request.user.userId) {
+      if (unDeletedTodo.userId !== request.user.id) {
         return response.status(401).json({ message: 'Unauthorized' });
       }
 
