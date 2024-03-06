@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./index.css";
-import { faFlag, faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { userApi } from "../../network/axios";
 import AddTodoModal from "../AddTodoModal";
 interface TodoFieldProps {
@@ -16,8 +16,14 @@ interface TodoFieldProps {
 
 function Todo({ todo, getTodos }: TodoFieldProps) {
   const [showModal, setShowModal] = useState(false);
+
   const handleDelete = async (id: string) => {
     await userApi.deleteTodo(id);
+    getTodos();
+  };
+
+  const handleCompleted = async (id: string) => {
+    await userApi.completeTodo(id);
     getTodos();
   };
   return (
@@ -25,8 +31,13 @@ function Todo({ todo, getTodos }: TodoFieldProps) {
       <div>{todo.description}</div>
       <div className="flex column todo-actions">
         <div className="flex right">
-          <button className="btn-menu">
-            <FontAwesomeIcon icon={faFlag} className="icon" />
+          <button
+            className="btn-menu"
+            onClick={() => {
+              handleCompleted(todo.id);
+            }}
+          >
+            <FontAwesomeIcon icon={faCheck} className="icon" />
           </button>
         </div>
         <div className="flex gap">

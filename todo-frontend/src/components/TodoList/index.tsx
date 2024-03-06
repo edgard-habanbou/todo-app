@@ -29,6 +29,9 @@ function TodoList({
 
   const groupedTodos: { [key: string]: TodoProps[] } = {};
   todos.forEach((todo) => {
+    if (todo.completed) {
+      return;
+    }
     const todoDate = formatDate(todo.date);
     if (!groupedTodos[todoDate]) {
       groupedTodos[todoDate] = [];
@@ -36,12 +39,14 @@ function TodoList({
     groupedTodos[todoDate].push(todo);
   });
 
+  Object.keys(groupedTodos).forEach((date) => {
+    groupedTodos[date].sort((a, b) => a.priority - b.priority);
+  });
+
   const sortedDates = Object.keys(groupedTodos).sort();
 
-  const today = formatDate(new Date(Date.now() + 86400000).toISOString());
-  const tomorrow = formatDate(
-    new Date(Date.now() + 86400000 + 86400000).toISOString()
-  );
+  const today = formatDate(new Date(Date.now()).toISOString());
+  const tomorrow = formatDate(new Date(Date.now() + 86400000).toISOString());
 
   return (
     <>
@@ -55,11 +60,9 @@ function TodoList({
             ) : (
               <h3>{date}</h3>
             )}
-            {groupedTodos[date].map((todo: TodoProps, todoIndex) =>
-              todo.completed ? null : (
-                <Todo key={todoIndex} todo={todo} getTodos={() => getTodos()} />
-              )
-            )}
+            {groupedTodos[date].map((todo: TodoProps, todoIndex) => (
+              <Todo key={todoIndex} todo={todo} getTodos={() => getTodos()} />
+            ))}
           </div>
         ))}
         <div className="full-width">

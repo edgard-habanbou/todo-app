@@ -26,6 +26,11 @@ class UserApi {
     return await api.put(`/todos/${id}`, todo);
   }
 
+  async completeTodo(todoId: string) {
+    return await api.put(`/todos/${todoId}`, {
+      completed: true,
+    });
+  }
   async getTodos() {
     return await api.get("/todos");
   }
